@@ -23,22 +23,19 @@ export const Header: React.FC = () => {
   const RoleIcon = roleInfo.icon;
 
   return (
-    <header className="sticky top-0 z-40 bg-[#FCF1D5]/95 backdrop-blur-md border-b border-[#562914]/15 px-3 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
-      {/* Left: Brand Logo (Full size, unencapsulated) & Desktop Menu Trigger */}
+    <header className="sticky top-0 z-40 bg-[#FCF1D5]/95 backdrop-blur-md border-b border-[#562914]/15 px-3 sm:px-6 h-14 sm:h-16 flex items-center justify-between">
+      {/* Left: Brand Logo & Desktop Menu Trigger */}
       <div className="flex items-center gap-2 sm:gap-4">
         <button
           onClick={() => setSidebarOpen((prev) => !prev)}
-          className="p-2 -ml-1 text-[#562914] hover:bg-[#562914]/10 rounded-xl lg:hidden cursor-pointer"
+          className="p-1.5 -ml-1 text-[#562914] hover:bg-[#562914]/10 rounded-xl lg:hidden cursor-pointer"
           title="Abrir menú"
           aria-label="Abrir menú de navegación"
         >
           <Menu className="w-5 h-5" />
         </button>
 
-        {/* 
-          Unencapsulated Full Size Logo:
-          "pon el logo en el header, en el homo o inicio. agrega el siguiente icono: https://appdesignproyectos.com/panaderiaicono.png no encapsules el logo, lo quiero ver de tamaño completo."
-        */}
+        {/* Unencapsulated logo scaled elegantly */}
         <div className="flex items-center">
           <img
             src="https://appdesignproyectos.com/panaderialogo.png"
@@ -46,7 +43,7 @@ export const Header: React.FC = () => {
               (e.currentTarget as HTMLImageElement).src = '/panaderialogo.png';
             }}
             alt="Panadería Pos Logo"
-            className="h-10 sm:h-14 md:h-16 w-auto object-contain max-w-[180px] sm:max-w-[280px]"
+            className="h-6 sm:h-7 md:h-8 w-auto object-contain max-w-[70px] sm:max-w-[85px] md:max-w-[100px]"
           />
         </div>
       </div>

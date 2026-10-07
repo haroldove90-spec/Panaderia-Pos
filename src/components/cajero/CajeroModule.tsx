@@ -788,7 +788,7 @@ export const CajeroModule: React.FC = () => {
                   (e.currentTarget as HTMLImageElement).src = '/panaderialogo.png';
                 }}
                 alt="Logo Panadería"
-                className="h-12 w-auto object-contain mx-auto mb-2"
+                className="h-8 sm:h-9 w-auto object-contain mx-auto mb-1.5"
               />
               <p className="text-xs text-stone-500 font-semibold">Comprobante de Venta y Pago</p>
               <div className="mt-1 text-xs font-mono-nums font-bold text-[#562914]">

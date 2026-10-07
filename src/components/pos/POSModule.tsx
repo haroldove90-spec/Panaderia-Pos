@@ -493,7 +493,7 @@ export const POSModule: React.FC = () => {
                   (e.currentTarget as HTMLImageElement).src = '/panaderialogo.png';
                 }}
                 alt="Logo Panadería"
-                className="h-12 w-auto object-contain mx-auto mb-2"
+                className="h-8 sm:h-9 w-auto object-contain mx-auto mb-1.5"
               />
               <p className="text-xs text-stone-500 font-semibold">Ticket de Despacho Mostrador</p>
               <div className="mt-2 inline-block px-3 py-1 bg-[#FCF1D5] text-[#562914] rounded-lg font-mono-nums font-black text-base border border-[#C58847]/40">
