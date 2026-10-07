@@ -38,6 +38,12 @@ interface AppContextType {
   pendingTickets: OrderTicket[];
   paidTickets: OrderTicket[];
   createTicket: (items: TicketItem[], counterId?: string, vendedorName?: string) => OrderTicket;
+  checkoutDirectSale: (
+    items: TicketItem[],
+    paymentMethod: PaymentMethod,
+    amountReceived: number,
+    sellerName?: string
+  ) => OrderTicket;
   payTicket: (
     ticketIdOrFolio: string,
     paymentMethod: PaymentMethod,
@@ -83,28 +89,63 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [notification, setNotification] = useState<string | null>(null);
 
   const [products, setProducts] = useState<BakeryProduct[]>(() => {
-    const saved = localStorage.getItem(STORAGE_KEYS.PRODUCTS);
-    if (saved) return JSON.parse(saved);
-    return isDemoCleared ? [] : INITIAL_PRODUCTS;
+    try {
+      const saved = localStorage.getItem(STORAGE_KEYS.PRODUCTS);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch {
+      // fallback
+    }
+    return INITIAL_PRODUCTS;
   });
 
   const [insumos, setInsumos] = useState<Insumo[]>(() => {
-    const saved = localStorage.getItem(STORAGE_KEYS.INSUMOS);
-    if (saved) return JSON.parse(saved);
-    return isDemoCleared ? [] : INITIAL_INSUMOS;
+    try {
+      const saved = localStorage.getItem(STORAGE_KEYS.INSUMOS);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch {
+      // fallback
+    }
+    return INITIAL_INSUMOS;
   });
 
   const [pendingTickets, setPendingTickets] = useState<OrderTicket[]>(() => {
-    const saved = localStorage.getItem(STORAGE_KEYS.PENDING_TICKETS);
-    if (saved) return JSON.parse(saved);
-    return isDemoCleared ? [] : INITIAL_PENDING_TICKETS;
+    try {
+      const saved = localStorage.getItem(STORAGE_KEYS.PENDING_TICKETS);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch {
+      // fallback
+    }
+    return INITIAL_PENDING_TICKETS;
   });
 
   const [paidTickets, setPaidTickets] = useState<OrderTicket[]>(() => {
-    const saved = localStorage.getItem(STORAGE_KEYS.PAID_TICKETS);
-    if (saved) return JSON.parse(saved);
-    return isDemoCleared ? [] : INITIAL_PAID_TICKETS;
+    try {
+      const saved = localStorage.getItem(STORAGE_KEYS.PAID_TICKETS);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) return parsed;
+      }
+    } catch {
+      // fallback
+    }
+    return INITIAL_PAID_TICKETS;
   });
+
+  useEffect(() => {
+    // If products ever became empty due to previous clear, auto-reactivate them
+    if (products.length === 0) {
+      setProducts(INITIAL_PRODUCTS);
+    }
+  }, []);
 
   const [cashCuts, setCashCuts] = useState<CashRegisterCut[]>(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.CASH_CUTS);
@@ -268,6 +309,62 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setPendingTickets((prev) => [newTicket, ...prev]);
     showNotification(`Ticket de Despacho ${folio} emitido con éxito`);
     return newTicket;
+  };
+
+  // Direct checkout / payment from POS
+  const checkoutDirectSale = (
+    items: TicketItem[],
+    paymentMethod: PaymentMethod,
+    amountReceived: number,
+    sellerName: string = 'Vendedor Mostrador'
+  ): OrderTicket => {
+    const totalPieces = items.reduce((acc, i) => acc + i.quantity, 0);
+    const total = items.reduce((acc, i) => acc + i.subtotal, 0);
+    const changeGiven = Math.max(0, amountReceived - total);
+
+    const now = new Date();
+    const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(
+      now.getMinutes()
+    ).padStart(2, '0')}`;
+    const randomSuffix = Math.floor(1000 + Math.random() * 9000);
+    const folio = `TK-${randomSuffix}`;
+
+    const paidTicket: OrderTicket = {
+      id: `tk-${Date.now()}`,
+      folio,
+      timestamp: timeStr,
+      paidAt: timeStr,
+      vendedorId: 'vend-1',
+      vendedorName: sellerName,
+      counterId: 'Mostrador POS',
+      items,
+      totalPieces,
+      total,
+      status: 'cobrado',
+      cajeraId: 'pos-direct',
+      cajeraName: sellerName,
+      paymentMethod,
+      amountReceived,
+      changeGiven,
+    };
+
+    // Deduct stock from products
+    setProducts((prev) =>
+      prev.map((prod) => {
+        const matchedItem = items.find((i) => i.productId === prod.id);
+        if (matchedItem) {
+          return {
+            ...prod,
+            stock: Math.max(0, prod.stock - matchedItem.quantity),
+          };
+        }
+        return prod;
+      })
+    );
+
+    setPaidTickets((prev) => [paidTicket, ...prev]);
+    showNotification(`¡Venta completada! Cobro de $${total.toFixed(2)} registrado con éxito.`);
+    return paidTicket;
   };
 
   // Ticket payment (Cajera)
@@ -474,6 +571,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         pendingTickets,
         paidTickets,
         createTicket,
+        checkoutDirectSale,
         payTicket,
         cancelTicket,
         cashCuts,
