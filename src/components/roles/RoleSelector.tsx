@@ -45,16 +45,17 @@ export const RoleSelector: React.FC = () => {
 
       <div className="w-full max-w-5xl mx-auto flex flex-col items-center">
         {/* 
-          Logo del sistema a tamaño completo sin encapsular (reducido para proporción elegante):
+          Logo del sistema a tamaño completo sin encapsular:
+          En móvil y tablet ajustado al tamaño de las tarjetas, y aumentado en fullscreen.
         */}
-        <div className="w-full flex justify-center mb-3 sm:mb-4 lg:mb-5 px-2">
+        <div className="w-full flex justify-center mb-6 sm:mb-8 lg:mb-10 px-2">
           <img
             src="https://appdesignproyectos.com/panaderialogo.png"
             onError={(e) => {
               (e.currentTarget as HTMLImageElement).src = '/panaderialogo.png';
             }}
             alt="Panadería Pos Logo"
-            className="h-11 sm:h-14 md:h-16 lg:h-20 w-auto max-w-[85px] sm:max-w-[110px] md:max-w-[125px] lg:max-w-[145px] object-contain transition-transform duration-200"
+            className="w-[160px] h-[160px] sm:w-[200px] sm:h-[200px] md:w-[210px] md:h-[210px] lg:w-[260px] lg:h-[260px] xl:w-[280px] xl:h-[280px] object-contain transition-transform duration-200 drop-shadow-xs"
           />
         </div>
 

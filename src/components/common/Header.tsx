@@ -43,7 +43,7 @@ export const Header: React.FC = () => {
               (e.currentTarget as HTMLImageElement).src = '/panaderialogo.png';
             }}
             alt="Panadería Pos Logo"
-            className="h-6 sm:h-7 md:h-8 w-auto object-contain max-w-[70px] sm:max-w-[85px] md:max-w-[100px]"
+            className="h-7 sm:h-8 md:h-9 w-auto object-contain max-w-[80px] sm:max-w-[95px] md:max-w-[115px]"
           />
         </div>
       </div>
