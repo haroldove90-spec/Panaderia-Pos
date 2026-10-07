@@ -1,7 +1,16 @@
 @import "tailwindcss";
 
+:root {
+  --color-pan-gold: #C58847;
+  --color-pan-brown: #562914;
+  --color-pan-cream: #FCF1D5;
+  --color-pan-black: #000000;
+}
+
 @layer base {
   body {
+    background-color: #FCF1D5;
+    color: #000000;
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     -webkit-tap-highlight-color: transparent;
   }

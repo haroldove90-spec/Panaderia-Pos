@@ -18,6 +18,7 @@ import {
   DollarSign,
   CheckCircle2,
   Search,
+  RotateCcw,
 } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
@@ -34,7 +35,12 @@ export const AdminDashboard: React.FC = () => {
     paidTickets,
     pendingTickets,
     cashCuts,
+    clearAllData,
+    isDemoCleared,
+    resetToDemoData,
   } = useApp();
+
+  const [confirmClearModal, setConfirmClearModal] = useState(false);
 
   // Metrics Calculations
   const totalSalesAmount = paidTickets.reduce((acc, t) => acc + t.total, 0);
@@ -168,22 +174,42 @@ export const AdminDashboard: React.FC = () => {
           {/* Top Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h1 className="text-xl sm:text-2xl font-black text-stone-900 font-display">
+              <h1 className="text-xl sm:text-2xl font-black text-[#562914] font-display">
                 Métricas de Operación y Ventas
               </h1>
-              <p className="text-xs sm:text-sm text-stone-500">
+              <p className="text-xs sm:text-sm text-stone-600">
                 Monitoreo en tiempo real de despachos, cobros y rotación de panadería
               </p>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                onClick={() => setConfirmClearModal(true)}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-red-200 bg-red-50 hover:bg-red-100 text-xs font-bold text-red-700 transition-colors cursor-pointer shadow-xs"
+                title="Borrar datos de muestra permanentemente"
+              >
+                <Trash2 className="w-3.5 h-3.5 text-red-600" />
+                <span>Borrar Datos de Muestra</span>
+              </button>
+
+              {isDemoCleared && (
+                <button
+                  onClick={resetToDemoData}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-[#562914]/20 bg-white hover:bg-[#FCF1D5] text-xs font-bold text-[#562914] transition-colors cursor-pointer"
+                  title="Cargar datos de prueba"
+                >
+                  <RotateCcw className="w-3.5 h-3.5 text-[#C58847]" />
+                  <span>Cargar Datos Demo</span>
+                </button>
+              )}
+
               <button
                 onClick={() => {
                   window.print();
                 }}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-stone-300 bg-white hover:bg-stone-50 text-xs font-semibold text-stone-700 transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-[#562914]/20 bg-[#562914] hover:bg-[#C58847] text-xs font-bold text-white transition-colors cursor-pointer shadow-xs"
               >
-                <Download className="w-3.5 h-3.5" />
+                <Download className="w-3.5 h-3.5 text-[#FCF1D5]" />
                 <span>Exportar Reporte</span>
               </button>
             </div>
@@ -191,34 +217,34 @@ export const AdminDashboard: React.FC = () => {
 
           {/* Metric Cards Row */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-stone-200 shadow-xs">
+            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#562914]/20 shadow-xs">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-semibold text-stone-500 uppercase tracking-wider">
+                <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">
                   Ventas del Día
                 </span>
-                <span className="p-2 rounded-xl bg-amber-50 text-amber-700">
-                  <DollarSign className="w-4 h-4" />
+                <span className="p-2 rounded-xl bg-[#FCF1D5] text-[#562914]">
+                  <DollarSign className="w-4 h-4 text-[#C58847]" />
                 </span>
               </div>
-              <div className="font-mono-nums text-2xl sm:text-3xl font-black text-stone-900">
+              <div className="font-mono-nums text-2xl sm:text-3xl font-black text-[#562914]">
                 ${totalSalesAmount.toFixed(2)}
               </div>
-              <div className="mt-2 flex items-center gap-1 text-xs text-emerald-700 font-semibold">
+              <div className="mt-2 flex items-center gap-1 text-xs text-emerald-700 font-bold">
                 <ArrowUpRight className="w-3.5 h-3.5" />
                 <span>{paidTickets.length} tickets cobrados</span>
               </div>
             </div>
 
-            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-stone-200 shadow-xs">
+            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#562914]/20 shadow-xs">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-semibold text-stone-500 uppercase tracking-wider">
+                <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">
                   Piezas de Pan
                 </span>
-                <span className="p-2 rounded-xl bg-yellow-50 text-yellow-700">
-                  <Wheat className="w-4 h-4" />
+                <span className="p-2 rounded-xl bg-[#FCF1D5] text-[#562914]">
+                  <Wheat className="w-4 h-4 text-[#C58847]" />
                 </span>
               </div>
-              <div className="font-mono-nums text-2xl sm:text-3xl font-black text-stone-900">
+              <div className="font-mono-nums text-2xl sm:text-3xl font-black text-[#000000]">
                 {totalPiecesSold} pzas
               </div>
               <div className="mt-2 text-xs text-stone-500 font-medium">
@@ -226,16 +252,16 @@ export const AdminDashboard: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-stone-200 shadow-xs">
+            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#562914]/20 shadow-xs">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-semibold text-stone-500 uppercase tracking-wider">
+                <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">
                   Ticket Promedio
                 </span>
-                <span className="p-2 rounded-xl bg-emerald-50 text-emerald-700">
-                  <TrendingUp className="w-4 h-4" />
+                <span className="p-2 rounded-xl bg-[#FCF1D5] text-[#562914]">
+                  <TrendingUp className="w-4 h-4 text-[#C58847]" />
                 </span>
               </div>
-              <div className="font-mono-nums text-2xl sm:text-3xl font-black text-stone-900">
+              <div className="font-mono-nums text-2xl sm:text-3xl font-black text-[#562914]">
                 ${averageTicket.toFixed(2)}
               </div>
               <div className="mt-2 text-xs text-stone-500 font-medium">
@@ -243,16 +269,16 @@ export const AdminDashboard: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-stone-200 shadow-xs">
+            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#562914]/20 shadow-xs">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-semibold text-stone-500 uppercase tracking-wider">
+                <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">
                   Tickets en Fila
                 </span>
-                <span className="p-2 rounded-xl bg-rose-50 text-rose-700">
-                  <Clock className="w-4 h-4" />
+                <span className="p-2 rounded-xl bg-red-50 text-red-700">
+                  <Clock className="w-4 h-4 text-red-600" />
                 </span>
               </div>
-              <div className="font-mono-nums text-2xl sm:text-3xl font-black text-rose-700">
+              <div className="font-mono-nums text-2xl sm:text-3xl font-black text-[#562914]">
                 {pendingTickets.length} pend.
               </div>
               <div className="mt-2 text-xs text-stone-500 font-medium">
@@ -1012,6 +1038,44 @@ export const AdminDashboard: React.FC = () => {
                 )}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* Confirmation Modal to Clear All Demo Data */}
+      {confirmClearModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
+          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl border border-[#562914]/20 text-[#000000] animate-in fade-in zoom-in-95 duration-150">
+            <div className="w-12 h-12 rounded-2xl bg-red-100 text-red-700 flex items-center justify-center mx-auto mb-3">
+              <Trash2 className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-base text-center text-[#562914]">
+              ¿Eliminar Datos de Muestra del Sistema?
+            </h3>
+            <p className="text-xs text-stone-600 text-center mt-2">
+              Se vaciarán productos, insumos, tickets y ventas de prueba. El navegador guardará esta preferencia para que <strong>no vuelvan a aparecer al recargar</strong>.
+            </p>
+            <p className="text-[11px] text-[#C58847] bg-[#FCF1D5] p-2.5 rounded-xl border border-[#C58847]/30 mt-3 text-center font-medium">
+              Preparado para vaciar automáticamente las tablas remotas de Supabase al configurarse.
+            </p>
+
+            <div className="flex gap-2.5 mt-5">
+              <button
+                onClick={() => setConfirmClearModal(false)}
+                className="flex-1 py-2.5 rounded-xl border border-stone-300 hover:bg-stone-50 text-xs font-bold text-stone-700 cursor-pointer"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={async () => {
+                  await clearAllData();
+                  setConfirmClearModal(false);
+                }}
+                className="flex-1 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold cursor-pointer"
+              >
+                Sí, Limpiar Todo
+              </button>
+            </div>
           </div>
         </div>
       )}

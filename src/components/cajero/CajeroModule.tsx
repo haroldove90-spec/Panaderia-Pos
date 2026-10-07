@@ -415,16 +415,16 @@ export const CajeroModule: React.FC = () => {
   return (
     <div className="flex flex-col lg:flex-row h-full gap-4 pb-20 lg:pb-4">
       {/* LEFT SECTION: Escáner de Recibos y Cola de Tickets Pendientes */}
-      <div className="flex-1 flex flex-col min-w-0 bg-white rounded-2xl border border-stone-200 shadow-xs overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 bg-white rounded-2xl border border-[#562914]/20 shadow-xs overflow-hidden">
         {/* Scanner Barcode Search Header */}
-        <div className="p-4 border-b border-stone-200 bg-emerald-50/40 space-y-3">
+        <div className="p-4 border-b border-[#562914]/15 bg-[#FCF1D5]/70 space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center">
-                <ScanLine className="w-4 h-4" />
+              <div className="w-8 h-8 rounded-xl bg-[#562914] text-white flex items-center justify-center">
+                <ScanLine className="w-4 h-4 text-[#C58847]" />
               </div>
               <div>
-                <h2 className="font-bold text-sm sm:text-base text-stone-900 font-display">
+                <h2 className="font-bold text-sm sm:text-base text-[#562914] font-display">
                   Escáner de Recibos de Compra
                 </h2>
                 <p className="text-xs text-stone-500">
@@ -435,13 +435,13 @@ export const CajeroModule: React.FC = () => {
 
             <button
               onClick={cameraActive ? stopCamera : startCamera}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition-colors ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer transition-colors shadow-xs ${
                 cameraActive
                   ? 'bg-red-600 hover:bg-red-700 text-white'
-                  : 'bg-white border border-stone-300 text-stone-700 hover:bg-stone-50'
+                  : 'bg-white border border-[#562914]/20 text-[#562914] hover:bg-[#FCF1D5]'
               }`}
             >
-              <Camera className="w-3.5 h-3.5" />
+              <Camera className="w-3.5 h-3.5 text-[#C58847]" />
               <span>{cameraActive ? 'Apagar Cámara' : 'Escanear con Cámara'}</span>
             </button>
           </div>
@@ -449,19 +449,19 @@ export const CajeroModule: React.FC = () => {
           {/* Barcode Search Form */}
           <form onSubmit={handleBarcodeSubmit} className="flex gap-2">
             <div className="relative flex-1">
-              <ScanLine className="w-4 h-4 text-emerald-600 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <ScanLine className="w-4 h-4 text-[#C58847] absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 ref={barcodeInputRef}
                 type="text"
                 value={barcodeInput}
                 onChange={(e) => setBarcodeInput(e.target.value)}
                 placeholder="Escanea código de barras o escribe ej: TK-4820"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-stone-300 bg-white text-sm text-stone-900 font-mono-nums placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 uppercase"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#562914]/20 bg-white text-sm text-[#000000] font-mono-nums placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[#C58847] focus:border-[#C58847] uppercase"
               />
             </div>
             <button
               type="submit"
-              className="px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold transition-colors cursor-pointer shrink-0"
+              className="px-4 py-2.5 rounded-xl bg-[#562914] hover:bg-[#C58847] text-white text-xs font-bold transition-colors cursor-pointer shrink-0 shadow-xs"
             >
               Buscar Folio
             </button>
@@ -772,22 +772,26 @@ export const CajeroModule: React.FC = () => {
         </div>
       </div>
 
-      {/* MODAL: Ticket de Venta Sellado (Recibo de Pago Oficial) */}
+      {/* MODAL: Ticket de Venta Sellado con Logo Completo */}
       {lastPaidReceipt && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto">
-          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl border border-stone-200 text-stone-900 animate-in fade-in zoom-in-95 duration-150 relative">
+          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl border border-[#562914]/20 text-[#000000] animate-in fade-in zoom-in-95 duration-150 relative">
             {/* Stamp "PAGADO" */}
-            <div className="absolute top-6 right-6 border-2 border-emerald-600 text-emerald-700 font-black text-xs px-2.5 py-1 rounded-md rotate-12 uppercase tracking-widest pointer-events-none">
+            <div className="absolute top-6 right-6 border-2 border-emerald-600 text-emerald-700 font-black text-xs px-2.5 py-1 rounded-md rotate-12 uppercase tracking-widest pointer-events-none bg-emerald-50">
               PAGADO
             </div>
 
             <div className="text-center pb-3 border-b border-dashed border-stone-300">
-              <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white mx-auto flex items-center justify-center mb-2">
-                <Wheat className="w-5 h-5" />
-              </div>
-              <h3 className="font-extrabold text-lg text-stone-900 font-display">PANADERÍA POS</h3>
-              <p className="text-xs text-stone-500">Comprobante de Venta y Pago</p>
-              <div className="mt-1 text-xs font-mono-nums font-bold text-stone-700">
+              <img
+                src="https://appdesignproyectos.com/panaderialogo.png"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = '/panaderialogo.png';
+                }}
+                alt="Logo Panadería"
+                className="h-12 w-auto object-contain mx-auto mb-2"
+              />
+              <p className="text-xs text-stone-500 font-semibold">Comprobante de Venta y Pago</p>
+              <div className="mt-1 text-xs font-mono-nums font-bold text-[#562914]">
                 FOLIO: {lastPaidReceipt.folio}
               </div>
             </div>
@@ -809,7 +813,7 @@ export const CajeroModule: React.FC = () => {
               {lastPaidReceipt.items.map((it, idx) => (
                 <div key={idx} className="flex justify-between">
                   <span>
-                    <span className="font-mono-nums font-bold">{it.quantity}x</span> {it.name}
+                    <span className="font-mono-nums font-bold text-[#C58847]">{it.quantity}x</span> {it.name}
                   </span>
                   <span className="font-mono-nums font-semibold">${it.subtotal.toFixed(2)}</span>
                 </div>
@@ -818,7 +822,7 @@ export const CajeroModule: React.FC = () => {
 
             {/* Totals & Change */}
             <div className="py-3 space-y-1 text-xs border-b border-stone-200 font-mono-nums">
-              <div className="flex justify-between font-bold text-sm text-stone-900">
+              <div className="flex justify-between font-bold text-sm text-[#562914]">
                 <span>TOTAL:</span>
                 <span>${lastPaidReceipt.total.toFixed(2)}</span>
               </div>
@@ -844,14 +848,14 @@ export const CajeroModule: React.FC = () => {
             <div className="space-y-2">
               <button
                 onClick={() => window.print()}
-                className="w-full py-2.5 rounded-xl border border-stone-300 hover:bg-stone-50 text-stone-800 font-semibold text-xs flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-2.5 rounded-xl border border-[#562914]/25 hover:bg-[#FCF1D5]/40 text-[#562914] font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition-colors"
               >
-                <Printer className="w-4 h-4" />
+                <Printer className="w-4 h-4 text-[#C58847]" />
                 <span>Imprimir Ticket Pagado</span>
               </button>
               <button
                 onClick={() => setLastPaidReceipt(null)}
-                className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs cursor-pointer"
+                className="w-full py-2.5 rounded-xl bg-[#562914] hover:bg-[#C58847] text-white font-bold text-xs cursor-pointer transition-colors"
               >
                 Cobrar Siguiente Recibo
               </button>

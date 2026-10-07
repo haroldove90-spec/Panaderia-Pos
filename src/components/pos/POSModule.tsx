@@ -25,14 +25,14 @@ export const POSModule: React.FC = () => {
   const [vendedorName, setVendedorName] = useState('Mateo R.');
   const [activeTicketModal, setActiveTicketModal] = useState<OrderTicket | null>(null);
 
-  // Category filters
+  // Category filters with requested palette
   const categories = [
-    { id: 'todos', label: 'Todo el Pan', color: 'bg-stone-800 text-white' },
-    { id: 'pan_dulce', label: 'Pan Dulce ($13-$22)', color: 'bg-amber-600 text-white' },
-    { id: 'pan_blanco', label: 'Pan Blanco ($3.50)', color: 'bg-yellow-600 text-white' },
-    { id: 'pasteleria', label: 'Pastelería Vitrina', color: 'bg-rose-600 text-white' },
-    { id: 'gelatinas', label: 'Gelatinas & Flan', color: 'bg-emerald-600 text-white' },
-    { id: 'cafeteria', label: 'Cafetería & Bebidas', color: 'bg-orange-600 text-white' },
+    { id: 'todos', label: 'Todo el Pan', color: 'bg-[#562914] text-white' },
+    { id: 'pan_dulce', label: 'Pan Dulce', color: 'bg-[#C58847] text-white' },
+    { id: 'pan_blanco', label: 'Pan Blanco (Bolillos)', color: 'bg-[#562914] text-white' },
+    { id: 'pasteleria', label: 'Pastelería Vitrina', color: 'bg-[#C58847] text-white' },
+    { id: 'gelatinas', label: 'Gelatinas & Flan', color: 'bg-[#562914] text-white' },
+    { id: 'cafeteria', label: 'Cafetería & Bebidas', color: 'bg-[#C58847] text-white' },
   ];
 
   // Filter products
@@ -111,50 +111,50 @@ export const POSModule: React.FC = () => {
     setTrayItems([]);
   };
 
-  // Preset button styling based on product category
+  // Button styling based on requested palette: #C58847, #562914, #FCF1D5, #000000
   const getProductButtonTheme = (cat: BakeryProduct['category']) => {
     switch (cat) {
       case 'pan_dulce':
         return {
-          bg: 'bg-amber-100 hover:bg-amber-200 active:bg-amber-300',
-          border: 'border-amber-400',
-          badge: 'bg-amber-700 text-white',
-          priceBg: 'bg-amber-800 text-white',
+          bg: 'bg-[#FCF1D5]/90 hover:bg-[#FCF1D5] active:bg-[#FCF1D5]',
+          border: 'border-[#C58847]',
+          badge: 'bg-[#C58847] text-white',
+          priceText: 'text-[#562914]',
         };
       case 'pan_blanco':
         return {
-          bg: 'bg-yellow-50 hover:bg-yellow-100 active:bg-yellow-200',
-          border: 'border-yellow-400',
-          badge: 'bg-yellow-700 text-white',
-          priceBg: 'bg-yellow-800 text-white',
+          bg: 'bg-white hover:bg-[#FCF1D5]/40 active:bg-[#FCF1D5]/70',
+          border: 'border-[#562914]/40',
+          badge: 'bg-[#562914] text-white',
+          priceText: 'text-[#562914]',
         };
       case 'pasteleria':
         return {
-          bg: 'bg-rose-50 hover:bg-rose-100 active:bg-rose-200',
-          border: 'border-rose-400',
-          badge: 'bg-rose-700 text-white',
-          priceBg: 'bg-rose-800 text-white',
+          bg: 'bg-[#562914]/5 hover:bg-[#562914]/15 active:bg-[#562914]/25',
+          border: 'border-[#562914]',
+          badge: 'bg-[#562914] text-white',
+          priceText: 'text-[#562914]',
         };
       case 'gelatinas':
         return {
-          bg: 'bg-emerald-50 hover:bg-emerald-100 active:bg-emerald-200',
-          border: 'border-emerald-400',
-          badge: 'bg-emerald-700 text-white',
-          priceBg: 'bg-emerald-800 text-white',
+          bg: 'bg-[#C58847]/10 hover:bg-[#C58847]/20 active:bg-[#C58847]/30',
+          border: 'border-[#C58847]',
+          badge: 'bg-[#C58847] text-white',
+          priceText: 'text-[#562914]',
         };
       case 'cafeteria':
         return {
-          bg: 'bg-orange-50 hover:bg-orange-100 active:bg-orange-200',
-          border: 'border-orange-400',
-          badge: 'bg-orange-700 text-white',
-          priceBg: 'bg-orange-800 text-white',
+          bg: 'bg-[#FCF1D5] hover:bg-white active:bg-[#FCF1D5]',
+          border: 'border-[#562914]/30',
+          badge: 'bg-[#562914] text-white',
+          priceText: 'text-[#562914]',
         };
       default:
         return {
-          bg: 'bg-stone-100 hover:bg-stone-200 active:bg-stone-300',
-          border: 'border-stone-400',
-          badge: 'bg-stone-700 text-white',
-          priceBg: 'bg-stone-800 text-white',
+          bg: 'bg-white hover:bg-[#FCF1D5]/50 active:bg-[#FCF1D5]',
+          border: 'border-[#562914]/30',
+          badge: 'bg-[#562914] text-white',
+          priceText: 'text-[#562914]',
         };
     }
   };
@@ -335,24 +335,31 @@ export const POSModule: React.FC = () => {
           </div>
 
           {filteredProducts.length === 0 && (
-            <div className="h-48 flex flex-col items-center justify-center text-stone-500">
-              <Wheat className="w-8 h-8 text-stone-400 mb-2" />
-              <p className="text-sm font-medium">No se encontraron productos con "{searchTerm}"</p>
+            <div className="h-56 flex flex-col items-center justify-center text-center p-6 bg-[#FCF1D5]/40 rounded-2xl border-2 border-dashed border-[#562914]/20">
+              <Wheat className="w-10 h-10 text-[#C58847] mb-2" />
+              <p className="text-sm font-bold text-[#562914]">
+                {products.length === 0 ? 'No hay productos en inventario' : `No se encontraron productos con "${searchTerm}"`}
+              </p>
+              <p className="text-xs text-stone-600 mt-1 max-w-sm">
+                {products.length === 0
+                  ? 'Los datos de muestra fueron eliminados. Puedes registrar nuevos panes en el módulo de Administrador o cargar datos demo de prueba.'
+                  : 'Prueba buscando con otro término o selecciona otra categoría.'}
+              </p>
             </div>
           )}
         </div>
       </div>
 
       {/* RIGHT SECTION: Charola Digital (Customer Tray) */}
-      <div className="w-full xl:w-96 flex flex-col bg-white rounded-2xl border border-stone-200 shadow-xs overflow-hidden shrink-0">
+      <div className="w-full xl:w-96 flex flex-col bg-white rounded-2xl border border-[#562914]/20 shadow-xs overflow-hidden shrink-0">
         {/* Tray Header */}
-        <div className="p-3.5 sm:p-4 border-b border-stone-200 bg-amber-50/50 flex items-center justify-between">
+        <div className="p-3.5 sm:p-4 border-b border-[#562914]/15 bg-[#FCF1D5]/70 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-amber-600 text-white flex items-center justify-center">
-              <ShoppingBag className="w-4 h-4" />
+            <div className="w-8 h-8 rounded-xl bg-[#562914] text-white flex items-center justify-center">
+              <ShoppingBag className="w-4 h-4 text-[#C58847]" />
             </div>
             <div>
-              <h2 className="font-bold text-sm sm:text-base text-stone-900 font-display">Charola de Despacho</h2>
+              <h2 className="font-bold text-sm sm:text-base text-[#562914] font-display">Charola de Despacho</h2>
               <div className="text-xs text-stone-500">
                 {totalPieces} piezas en bandeja
               </div>
@@ -362,7 +369,7 @@ export const POSModule: React.FC = () => {
           {trayItems.length > 0 && (
             <button
               onClick={clearTray}
-              className="text-xs text-red-600 hover:text-red-700 hover:bg-red-50 px-2 py-1 rounded-md font-medium transition-colors"
+              className="text-xs text-red-600 hover:text-red-700 hover:bg-red-50 px-2 py-1 rounded-md font-bold transition-colors cursor-pointer"
             >
               Vaciar
             </button>
@@ -372,9 +379,9 @@ export const POSModule: React.FC = () => {
         {/* Tray Items List */}
         <div className="flex-1 p-3 overflow-y-auto space-y-2 max-h-72 xl:max-h-96 min-h-[160px]">
           {trayItems.length === 0 ? (
-            <div className="h-44 flex flex-col items-center justify-center text-center p-4 text-stone-500 border border-dashed border-stone-200 rounded-xl bg-stone-50/50">
-              <Sparkles className="w-6 h-6 text-amber-500 mb-2 opacity-80" />
-              <p className="text-xs sm:text-sm font-medium text-stone-700">Charola vacía</p>
+            <div className="h-44 flex flex-col items-center justify-center text-center p-4 text-[#562914]/70 border border-dashed border-[#562914]/20 rounded-xl bg-[#FCF1D5]/30">
+              <Sparkles className="w-6 h-6 text-[#C58847] mb-2" />
+              <p className="text-xs sm:text-sm font-bold text-[#562914]">Charola vacía</p>
               <p className="text-xs text-stone-500 mt-0.5">
                 Presiona los botones de pan para agregar a la charola del cliente
               </p>
@@ -383,10 +390,10 @@ export const POSModule: React.FC = () => {
             trayItems.map((item) => (
               <div
                 key={item.productId}
-                className="flex items-center justify-between p-2.5 rounded-xl border border-stone-200 bg-stone-50/80 hover:bg-stone-50"
+                className="flex items-center justify-between p-2.5 rounded-xl border border-[#562914]/15 bg-[#FCF1D5]/20 hover:bg-[#FCF1D5]/40"
               >
                 <div className="flex-1 min-w-0 pr-2">
-                  <div className="font-bold text-xs sm:text-sm text-stone-900 truncate">
+                  <div className="font-bold text-xs sm:text-sm text-[#562914] truncate">
                     {item.name}
                   </div>
                   <div className="text-xs text-stone-600 font-mono-nums">
@@ -398,22 +405,22 @@ export const POSModule: React.FC = () => {
                 <div className="flex items-center gap-1.5 shrink-0">
                   <button
                     onClick={() => updateQuantity(item.productId, -1)}
-                    className="w-7 h-7 rounded-lg bg-white border border-stone-300 text-stone-700 hover:bg-stone-100 flex items-center justify-center font-bold text-sm cursor-pointer"
+                    className="w-7 h-7 rounded-lg bg-white border border-[#562914]/20 text-[#562914] hover:bg-[#FCF1D5] flex items-center justify-center font-bold text-sm cursor-pointer"
                   >
                     <Minus className="w-3.5 h-3.5" />
                   </button>
-                  <span className="w-7 text-center font-bold font-mono-nums text-sm text-stone-900">
+                  <span className="w-7 text-center font-bold font-mono-nums text-sm text-[#000000]">
                     {item.quantity}
                   </span>
                   <button
                     onClick={() => updateQuantity(item.productId, 1)}
-                    className="w-7 h-7 rounded-lg bg-amber-600 hover:bg-amber-700 text-white flex items-center justify-center font-bold text-sm cursor-pointer"
+                    className="w-7 h-7 rounded-lg bg-[#C58847] hover:bg-[#562914] text-white flex items-center justify-center font-bold text-sm cursor-pointer"
                   >
                     <Plus className="w-3.5 h-3.5" />
                   </button>
                   <button
                     onClick={() => removeItem(item.productId)}
-                    className="p-1 text-stone-500 hover:text-red-600 rounded-md ml-1"
+                    className="p-1 text-stone-400 hover:text-red-600 rounded-md ml-1 cursor-pointer"
                     title="Eliminar de la charola"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -424,10 +431,10 @@ export const POSModule: React.FC = () => {
           )}
         </div>
 
-        {/* Quick Batch Quantity Buttons (Very common in CDMX for Bolillos / Teleras) */}
+        {/* Quick Batch Quantity Buttons */}
         {trayItems.length > 0 && (
-          <div className="px-3 py-2 border-t border-stone-200 bg-stone-50 flex items-center gap-1.5 text-xs">
-            <span className="text-stone-500 font-medium">Rápido:</span>
+          <div className="px-3 py-2 border-t border-[#562914]/15 bg-[#FCF1D5]/30 flex items-center gap-1.5 text-xs">
+            <span className="text-[#562914]/70 font-bold">Rápido:</span>
             {[5, 10, 20].map((quick) => (
               <button
                 key={quick}
@@ -435,7 +442,7 @@ export const POSModule: React.FC = () => {
                   const last = trayItems[trayItems.length - 1];
                   if (last) updateQuantity(last.productId, quick);
                 }}
-                className="px-2 py-0.5 rounded bg-white border border-stone-300 hover:bg-amber-50 hover:border-amber-400 font-mono-nums font-bold text-stone-700 cursor-pointer"
+                className="px-2 py-0.5 rounded-lg bg-white border border-[#562914]/20 hover:bg-[#FCF1D5] hover:border-[#C58847] font-mono-nums font-bold text-[#562914] cursor-pointer"
               >
                 +{quick} último
               </button>
@@ -444,15 +451,15 @@ export const POSModule: React.FC = () => {
         )}
 
         {/* Tray Summary & Emit Ticket CTA */}
-        <div className="p-3.5 sm:p-4 border-t border-stone-200 bg-stone-50/80 space-y-3">
+        <div className="p-3.5 sm:p-4 border-t border-[#562914]/15 bg-white space-y-3">
           <div className="space-y-1 text-xs sm:text-sm">
             <div className="flex justify-between text-stone-600">
               <span>Total piezas:</span>
-              <span className="font-bold font-mono-nums text-stone-900">{totalPieces} pzas</span>
+              <span className="font-bold font-mono-nums text-[#000000]">{totalPieces} pzas</span>
             </div>
-            <div className="flex justify-between items-baseline pt-1 border-t border-stone-200">
-              <span className="font-bold text-stone-900 text-base">Total a Cobrar:</span>
-              <span className="font-mono-nums text-2xl font-black text-amber-700">
+            <div className="flex justify-between items-baseline pt-1 border-t border-[#562914]/10">
+              <span className="font-bold text-[#562914] text-base">Total a Cobrar:</span>
+              <span className="font-mono-nums text-2xl font-black text-[#562914]">
                 ${totalPrice.toFixed(2)}
               </span>
             </div>
@@ -462,30 +469,34 @@ export const POSModule: React.FC = () => {
           <button
             onClick={handleEmitTicket}
             disabled={trayItems.length === 0}
-            className={`w-full py-3 sm:py-3.5 rounded-xl font-bold text-sm sm:text-base flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm ${
+            className={`w-full py-3.5 rounded-xl font-bold text-sm sm:text-base flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm ${
               trayItems.length > 0
-                ? 'bg-amber-600 hover:bg-amber-700 active:bg-amber-800 text-white hover:shadow-md'
+                ? 'bg-[#562914] hover:bg-[#C58847] active:scale-98 text-white hover:shadow-md'
                 : 'bg-stone-200 text-stone-400 cursor-not-allowed'
             }`}
           >
-            <Printer className="w-5 h-5" />
+            <Printer className="w-5 h-5 text-[#FCF1D5]" />
             <span>Emitir Ticket para Caja</span>
           </button>
         </div>
       </div>
 
-      {/* MODAL: Ticket de Despacho Emitido (Ticket con Código de Barras para pasar a Caja) */}
+      {/* MODAL: Ticket de Despacho Emitido con Logo unencapsulated */}
       {activeTicketModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto">
-          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl border border-stone-200 text-stone-900 animate-in fade-in zoom-in-95 duration-150">
-            {/* Header Ticket */}
+          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl border border-[#562914]/20 text-[#000000] animate-in fade-in zoom-in-95 duration-150">
+            {/* Header Ticket with unencapsulated logo */}
             <div className="text-center pb-3 border-b border-dashed border-stone-300">
-              <div className="w-10 h-10 rounded-xl bg-amber-600 text-white mx-auto flex items-center justify-center mb-2">
-                <Wheat className="w-5 h-5" />
-              </div>
-              <h3 className="font-extrabold text-lg text-stone-900 font-display">PANADERÍA POS</h3>
-              <p className="text-xs text-stone-500">Ticket de Despacho Mostrador</p>
-              <div className="mt-2 inline-block px-3 py-1 bg-amber-100 text-amber-900 rounded-lg font-mono-nums font-black text-base border border-amber-300">
+              <img
+                src="https://appdesignproyectos.com/panaderialogo.png"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = '/panaderialogo.png';
+                }}
+                alt="Logo Panadería"
+                className="h-12 w-auto object-contain mx-auto mb-2"
+              />
+              <p className="text-xs text-stone-500 font-semibold">Ticket de Despacho Mostrador</p>
+              <div className="mt-2 inline-block px-3 py-1 bg-[#FCF1D5] text-[#562914] rounded-lg font-mono-nums font-black text-base border border-[#C58847]/40">
                 FOLIO: {activeTicketModal.folio}
               </div>
             </div>
@@ -494,7 +505,7 @@ export const POSModule: React.FC = () => {
             <div className="py-2.5 text-xs text-stone-600 border-b border-stone-200 flex justify-between font-mono-nums">
               <span>{activeTicketModal.counterId}</span>
               <span className="flex items-center gap-1">
-                <Clock className="w-3 h-3" />
+                <Clock className="w-3 h-3 text-[#C58847]" />
                 {activeTicketModal.timestamp}
               </span>
             </div>
@@ -504,7 +515,7 @@ export const POSModule: React.FC = () => {
               {activeTicketModal.items.map((it, idx) => (
                 <div key={idx} className="flex justify-between text-xs">
                   <div className="font-medium text-stone-800">
-                    <span className="font-mono-nums font-bold text-amber-700">{it.quantity}x</span>{' '}
+                    <span className="font-mono-nums font-bold text-[#C58847]">{it.quantity}x</span>{' '}
                     {it.name}
                   </div>
                   <div className="font-mono-nums text-stone-900 font-semibold">
@@ -519,15 +530,15 @@ export const POSModule: React.FC = () => {
               <span className="text-xs font-semibold text-stone-600">
                 Total ({activeTicketModal.totalPieces} pzas):
               </span>
-              <span className="font-mono-nums text-xl font-black text-amber-700">
+              <span className="font-mono-nums text-xl font-black text-[#562914]">
                 ${activeTicketModal.total.toFixed(2)}
               </span>
             </div>
 
             {/* Barcode Visual */}
-            <div className="my-4 p-2 bg-stone-50 rounded-xl border border-stone-200">
+            <div className="my-4 p-2 bg-[#FCF1D5]/40 rounded-xl border border-[#562914]/15">
               <BarcodeVisual value={activeTicketModal.folio} />
-              <p className="text-[10px] text-center text-stone-500 mt-1 font-medium">
+              <p className="text-[10px] text-center text-stone-600 mt-1 font-bold">
                 Pase a pagar a la caja con este código
               </p>
             </div>
@@ -538,14 +549,14 @@ export const POSModule: React.FC = () => {
                 onClick={() => {
                   window.print();
                 }}
-                className="w-full py-2.5 rounded-xl border border-stone-300 hover:bg-stone-50 text-stone-800 font-semibold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                className="w-full py-2.5 rounded-xl border border-[#562914]/25 hover:bg-[#FCF1D5]/40 text-[#562914] font-bold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
               >
-                <Printer className="w-4 h-4" />
+                <Printer className="w-4 h-4 text-[#C58847]" />
                 <span>Imprimir Ticket</span>
               </button>
               <button
                 onClick={() => setActiveTicketModal(null)}
-                className="w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs transition-colors cursor-pointer"
+                className="w-full py-2.5 rounded-xl bg-[#562914] hover:bg-[#C58847] text-white font-bold text-xs transition-colors cursor-pointer"
               >
                 Siguiente Despacho
               </button>

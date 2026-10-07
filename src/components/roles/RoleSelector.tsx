@@ -1,16 +1,13 @@
 import React from 'react';
 import { UserRole } from '../../types';
 import { useApp } from '../../context/AppContext';
-import { Shield, ShoppingBag, Receipt, Wheat } from 'lucide-react';
+import { Shield, ShoppingBag, Receipt, UserCheck } from 'lucide-react';
 import { PWAInstallButton } from '../common/PWAInstallButton';
 
 interface RoleOption {
   id: UserRole;
   name: string;
   icon: React.ElementType;
-  accentBg: string;
-  accentBorder: string;
-  accentText: string;
 }
 
 const ROLES: RoleOption[] = [
@@ -18,25 +15,21 @@ const ROLES: RoleOption[] = [
     id: 'admin',
     name: 'Administrador',
     icon: Shield,
-    accentBg: 'bg-stone-50 hover:bg-stone-100/90 active:bg-stone-200/90',
-    accentBorder: 'border-stone-300 hover:border-stone-500',
-    accentText: 'text-stone-900',
   },
   {
     id: 'vendedor',
     name: 'Vendedor',
     icon: ShoppingBag,
-    accentBg: 'bg-amber-50 hover:bg-amber-100/90 active:bg-amber-200/90',
-    accentBorder: 'border-amber-300 hover:border-amber-500',
-    accentText: 'text-amber-950',
   },
   {
     id: 'cajera',
     name: 'Cajera',
     icon: Receipt,
-    accentBg: 'bg-emerald-50 hover:bg-emerald-100/90 active:bg-emerald-200/90',
-    accentBorder: 'border-emerald-300 hover:border-emerald-500',
-    accentText: 'text-emerald-950',
+  },
+  {
+    id: 'admin',
+    name: 'Supervisor',
+    icon: UserCheck,
   },
 ];
 
@@ -44,38 +37,46 @@ export const RoleSelector: React.FC = () => {
   const { setRole } = useApp();
 
   return (
-    <div className="min-h-screen bg-[#faf8f5] flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8">
-      {/* Top subtle bar for PWA quick install if user arrives on role select */}
+    <div className="min-h-screen bg-[#FCF1D5] flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8 relative">
+      {/* Top action bar: PWA Install Button */}
       <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
         <PWAInstallButton compact />
       </div>
 
-      <div className="w-full max-w-4xl mx-auto flex flex-col items-center">
-        {/* Subtle Brand Logo Watermark (No header text, no descriptions) */}
-        <div className="mb-8 sm:mb-12 flex flex-col items-center">
-          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-amber-600 flex items-center justify-center text-amber-50 shadow-md ring-4 ring-amber-100">
-            <Wheat className="w-9 h-9 sm:w-11 sm:h-11" />
-          </div>
+      <div className="w-full max-w-5xl mx-auto flex flex-col items-center">
+        {/* 
+          Logo del sistema a tamaño completo sin encapsular:
+          "Agrega el siguiente logo al sistema: https://appdesignproyectos.com/panaderialogo.png pon el logo en el header, en el homo o inicio. agrega el siguiente icono: https://appdesignproyectos.com/panaderiaicono.png no encapsules el logo, lo quiero ver de tamaño completo."
+        */}
+        <div className="w-full flex justify-center mb-8 sm:mb-12 px-2">
+          <img
+            src="https://appdesignproyectos.com/panaderialogo.png"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = '/panaderialogo.png';
+            }}
+            alt="Panadería Pos Logo"
+            className="w-full max-w-[280px] sm:max-w-md md:max-w-xl h-auto object-contain transition-transform duration-200"
+          />
         </div>
 
         {/* 
-          Grid layout matching requirement:
           Acceso por Roles en Inicio (Cuadrícula 2 Columnas Móvil / 4 Columnas Escritorio):
           Selector limpio con tarjetas independientes para cada rol. Sin header, sin descripciones, solo nombre del rol.
+          Colores: #C58847, #562914, #FCF1D5, #000000
         */}
-        <div className="w-full grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 justify-center max-w-3xl">
-          {ROLES.map((r) => {
+        <div className="w-full grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-6">
+          {ROLES.map((r, idx) => {
             const Icon = r.icon;
             return (
               <button
-                key={r.id}
+                key={`${r.name}-${idx}`}
                 onClick={() => setRole(r.id)}
-                className={`flex flex-col items-center justify-center p-6 sm:p-10 rounded-2xl border-2 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md active:scale-[0.98] ${r.accentBg} ${r.accentBorder} min-h-[160px] sm:min-h-[210px]`}
+                className="group flex flex-col items-center justify-center p-6 sm:p-8 rounded-2xl border-2 border-[#562914]/25 bg-white/90 hover:bg-white text-[#562914] hover:border-[#C58847] hover:shadow-xl active:scale-[0.98] transition-all duration-200 cursor-pointer min-h-[160px] sm:min-h-[200px]"
               >
-                <div className="w-14 h-14 sm:w-18 sm:h-18 rounded-2xl bg-white shadow-xs flex items-center justify-center mb-4 sm:mb-5 border border-stone-200/60">
-                  <Icon className={`w-7 h-7 sm:w-9 sm:h-9 ${r.accentText}`} />
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#FCF1D5] flex items-center justify-center mb-4 sm:mb-5 border border-[#C58847]/40 group-hover:bg-[#C58847] transition-colors duration-200">
+                  <Icon className="w-7 h-7 sm:w-8 sm:h-8 text-[#562914] group-hover:text-white transition-colors duration-200" />
                 </div>
-                <span className={`text-base sm:text-xl font-bold tracking-tight font-display text-center ${r.accentText}`}>
+                <span className="text-base sm:text-xl font-bold tracking-tight font-display text-center text-[#562914] group-hover:text-[#000000]">
                   {r.name}
                 </span>
               </button>

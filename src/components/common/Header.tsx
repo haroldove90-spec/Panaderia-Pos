@@ -23,33 +23,39 @@ export const Header: React.FC = () => {
   const RoleIcon = roleInfo.icon;
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200 px-3 sm:px-6 h-14 sm:h-16 flex items-center justify-between">
-      {/* Left: Brand Logo & Desktop Menu Trigger */}
-      <div className="flex items-center gap-2 sm:gap-3">
+    <header className="sticky top-0 z-40 bg-[#FCF1D5]/95 backdrop-blur-md border-b border-[#562914]/15 px-3 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
+      {/* Left: Brand Logo (Full size, unencapsulated) & Desktop Menu Trigger */}
+      <div className="flex items-center gap-2 sm:gap-4">
         <button
           onClick={() => setSidebarOpen((prev) => !prev)}
-          className="p-2 -ml-1 text-stone-600 hover:text-stone-900 hover:bg-stone-100 rounded-lg lg:hidden"
+          className="p-2 -ml-1 text-[#562914] hover:bg-[#562914]/10 rounded-xl lg:hidden cursor-pointer"
           title="Abrir menú"
           aria-label="Abrir menú de navegación"
         >
           <Menu className="w-5 h-5" />
         </button>
 
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-amber-600 flex items-center justify-center text-amber-50 shadow-xs">
-            <Wheat className="w-5 h-5 sm:w-5.5 sm:h-5.5" />
-          </div>
-          <span className="font-display font-extrabold text-base sm:text-lg tracking-tight text-stone-900 whitespace-nowrap">
-            Panadería Pos
-          </span>
+        {/* 
+          Unencapsulated Full Size Logo:
+          "pon el logo en el header, en el homo o inicio. agrega el siguiente icono: https://appdesignproyectos.com/panaderiaicono.png no encapsules el logo, lo quiero ver de tamaño completo."
+        */}
+        <div className="flex items-center">
+          <img
+            src="https://appdesignproyectos.com/panaderialogo.png"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = '/panaderialogo.png';
+            }}
+            alt="Panadería Pos Logo"
+            className="h-10 sm:h-14 md:h-16 w-auto object-contain max-w-[180px] sm:max-w-[280px]"
+          />
         </div>
       </div>
 
       {/* Center/Right: Active Role badge, PWA install button, and Logout button */}
-      <div className="flex items-center gap-2 sm:gap-3.5">
+      <div className="flex items-center gap-2 sm:gap-3">
         {/* Active Role Identification */}
-        <div className={`flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm font-semibold ${roleInfo.color}`}>
-          <RoleIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+        <div className="flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl border border-[#562914]/20 bg-white/80 text-[#562914] text-xs sm:text-sm font-bold shadow-xs">
+          <RoleIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C58847] shrink-0" />
           <span className="hidden xs:inline">{roleInfo.label}</span>
         </div>
 
@@ -59,11 +65,11 @@ export const Header: React.FC = () => {
         {/* Log Out Button */}
         <button
           onClick={() => setRole(null)}
-          title="Cerrar sesión y cambiar de rol"
-          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-stone-300 text-stone-700 hover:bg-red-50 hover:text-red-700 hover:border-red-300 text-xs sm:text-sm font-medium transition-colors cursor-pointer"
+          title="Cerrar sesión y volver al selector de roles"
+          className="flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl border border-[#562914]/20 bg-white/70 text-[#562914] hover:bg-red-50 hover:text-red-700 hover:border-red-300 text-xs sm:text-sm font-bold transition-colors cursor-pointer shadow-xs"
         >
           <LogOut className="w-4 h-4 shrink-0" />
-          <span className="hidden sm:inline">Cerrar Sesión</span>
+          <span className="hidden sm:inline">Salir</span>
         </button>
       </div>
     </header>

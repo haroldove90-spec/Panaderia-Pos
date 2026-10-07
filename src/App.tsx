@@ -35,7 +35,7 @@ const MainLayout: React.FC = () => {
 
   // 2. Main Authenticated Dashboard Layout
   return (
-    <div className="min-h-screen bg-[#faf8f5] text-stone-900 flex flex-col">
+    <div className="min-h-screen bg-[#FCF1D5] text-[#000000] flex flex-col">
       {/* Cabecera Institucional Unificada */}
       <Header />
 
@@ -59,16 +59,16 @@ const MainLayout: React.FC = () => {
 
       {/* Toast Notification */}
       {notification && (
-        <div className="fixed bottom-16 sm:bottom-6 right-4 z-50 flex items-center gap-2 rounded-xl bg-stone-900 text-white px-4 py-2.5 text-xs font-semibold shadow-xl border border-stone-700 animate-in fade-in slide-in-from-bottom-2 duration-150">
-          <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
+        <div className="fixed bottom-16 sm:bottom-6 right-4 z-50 flex items-center gap-2 rounded-xl bg-[#562914] text-white px-4 py-2.5 text-xs font-bold shadow-2xl border border-[#C58847]/40 animate-in fade-in slide-in-from-bottom-2 duration-150">
+          <CheckCircle2 className="w-4 h-4 text-[#C58847] shrink-0" />
           <span>{notification}</span>
         </div>
       )}
 
       {/* Offline Mode Indicator */}
       {!isOnline && (
-        <div className="fixed top-16 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 rounded-full bg-amber-600 px-3.5 py-1 text-xs font-bold text-white shadow-lg">
-          <WifiOff className="w-3.5 h-3.5" />
+        <div className="fixed top-16 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 rounded-full bg-[#562914] text-[#FCF1D5] px-3.5 py-1 text-xs font-bold shadow-lg border border-[#C58847]/40">
+          <WifiOff className="w-3.5 h-3.5 text-[#C58847]" />
           <span>Modo Sin Conexión — Datos guardados localmente</span>
         </div>
       )}

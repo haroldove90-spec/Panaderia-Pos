@@ -52,6 +52,8 @@ interface AppContextType {
 
   // Helpers
   resetToDemoData: () => void;
+  clearAllData: () => Promise<void>;
+  isDemoCleared: boolean;
   notification: string | null;
   showNotification: (msg: string) => void;
 }
@@ -65,9 +67,12 @@ const STORAGE_KEYS = {
   PENDING_TICKETS: 'panaderia_pending_tickets_v1',
   PAID_TICKETS: 'panaderia_paid_tickets_v1',
   CASH_CUTS: 'panaderia_cash_cuts_v1',
+  DEMO_CLEARED: 'panaderia_demo_cleared_v1',
 };
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const isDemoCleared = localStorage.getItem(STORAGE_KEYS.DEMO_CLEARED) === 'true';
+
   const [role, setRoleState] = useState<UserRole | null>(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.ROLE);
     return saved ? (saved as UserRole) : null;
@@ -79,22 +84,26 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [products, setProducts] = useState<BakeryProduct[]>(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.PRODUCTS);
-    return saved ? JSON.parse(saved) : INITIAL_PRODUCTS;
+    if (saved) return JSON.parse(saved);
+    return isDemoCleared ? [] : INITIAL_PRODUCTS;
   });
 
   const [insumos, setInsumos] = useState<Insumo[]>(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.INSUMOS);
-    return saved ? JSON.parse(saved) : INITIAL_INSUMOS;
+    if (saved) return JSON.parse(saved);
+    return isDemoCleared ? [] : INITIAL_INSUMOS;
   });
 
   const [pendingTickets, setPendingTickets] = useState<OrderTicket[]>(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.PENDING_TICKETS);
-    return saved ? JSON.parse(saved) : INITIAL_PENDING_TICKETS;
+    if (saved) return JSON.parse(saved);
+    return isDemoCleared ? [] : INITIAL_PENDING_TICKETS;
   });
 
   const [paidTickets, setPaidTickets] = useState<OrderTicket[]>(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.PAID_TICKETS);
-    return saved ? JSON.parse(saved) : INITIAL_PAID_TICKETS;
+    if (saved) return JSON.parse(saved);
+    return isDemoCleared ? [] : INITIAL_PAID_TICKETS;
   });
 
   const [cashCuts, setCashCuts] = useState<CashRegisterCut[]>(() => {
@@ -399,12 +408,51 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const resetToDemoData = () => {
+    localStorage.removeItem(STORAGE_KEYS.DEMO_CLEARED);
     setProducts(INITIAL_PRODUCTS);
     setInsumos(INITIAL_INSUMOS);
     setPendingTickets(INITIAL_PENDING_TICKETS);
     setPaidTickets(INITIAL_PAID_TICKETS);
     setCashCuts([]);
     showNotification('Datos de demostración restaurados');
+  };
+
+  const clearAllData = async () => {
+    // 1. Mark demo as permanently cleared in browser localStorage
+    localStorage.setItem(STORAGE_KEYS.DEMO_CLEARED, 'true');
+
+    // 2. Clear state in memory
+    setProducts([]);
+    setInsumos([]);
+    setPendingTickets([]);
+    setPaidTickets([]);
+    setCashCuts([]);
+
+    // 3. Clear stored arrays in localStorage
+    localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify([]));
+    localStorage.setItem(STORAGE_KEYS.INSUMOS, JSON.stringify([]));
+    localStorage.setItem(STORAGE_KEYS.PENDING_TICKETS, JSON.stringify([]));
+    localStorage.setItem(STORAGE_KEYS.PAID_TICKETS, JSON.stringify([]));
+    localStorage.setItem(STORAGE_KEYS.CASH_CUTS, JSON.stringify([]));
+
+    // 4. Hook for future Supabase configuration:
+    // If window.supabase or custom client is present, wipe remote tables
+    try {
+      const globalAny = window as any;
+      if (globalAny.supabase) {
+        await Promise.allSettled([
+          globalAny.supabase.from('products').delete().neq('id', 'null'),
+          globalAny.supabase.from('insumos').delete().neq('id', 'null'),
+          globalAny.supabase.from('tickets').delete().neq('id', 'null'),
+          globalAny.supabase.from('cash_cuts').delete().neq('id', 'null'),
+        ]);
+        console.info('[Supabase] Tablas limpiadas exitosamente.');
+      }
+    } catch (err) {
+      console.warn('[Supabase] Error al borrar registros remotos:', err);
+    }
+
+    showNotification('¡Datos de muestra eliminados! El sistema ahora está completamente limpio.');
   };
 
   return (
@@ -431,6 +479,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         cashCuts,
         createCashCut,
         resetToDemoData,
+        clearAllData,
+        isDemoCleared,
         notification,
         showNotification,
       }}

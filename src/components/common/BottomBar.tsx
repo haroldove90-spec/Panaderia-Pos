@@ -55,7 +55,7 @@ export const BottomBar: React.FC = () => {
   return (
     <nav
       aria-label="Navegación inferior táctil"
-      className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-stone-200 lg:hidden px-2 py-1 flex items-center justify-around shadow-lg"
+      className="fixed bottom-0 left-0 right-0 z-40 bg-[#FCF1D5]/95 backdrop-blur-md border-t border-[#562914]/15 lg:hidden px-2 py-1.5 flex items-center justify-around shadow-xl"
     >
       {tabs.map((tab) => {
         const Icon = tab.icon;
@@ -64,14 +64,14 @@ export const BottomBar: React.FC = () => {
           <button
             key={tab.id}
             onClick={() => setActiveModule(tab.id)}
-            className={`relative flex flex-col items-center justify-center flex-1 py-1.5 px-1 min-h-[50px] transition-colors cursor-pointer rounded-lg ${
-              isActive ? 'text-amber-700 font-bold' : 'text-stone-500 hover:text-stone-800'
+            className={`relative flex flex-col items-center justify-center flex-1 py-1 px-1 min-h-[52px] transition-colors cursor-pointer rounded-xl ${
+              isActive ? 'text-[#562914] font-extrabold' : 'text-[#562914]/60 hover:text-[#562914]'
             }`}
           >
             <div className="relative">
-              <Icon className={`w-5 h-5 ${isActive ? 'stroke-[2.5px]' : 'stroke-2'}`} />
+              <Icon className={`w-5 h-5 ${isActive ? 'text-[#562914] stroke-[2.5px]' : 'stroke-2'}`} />
               {tab.badge !== undefined && tab.badge > 0 && (
-                <span className="absolute -top-1 -right-2 bg-amber-600 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
+                <span className="absolute -top-1 -right-2 bg-[#C58847] text-white text-[10px] font-black rounded-full h-4 w-4 flex items-center justify-center shadow-xs">
                   {tab.badge}
                 </span>
               )}
@@ -80,7 +80,7 @@ export const BottomBar: React.FC = () => {
               {tab.label}
             </span>
             {isActive && (
-              <span className="w-6 h-0.5 bg-amber-600 rounded-full mt-0.5" />
+              <span className="w-6 h-1 bg-[#C58847] rounded-full mt-0.5" />
             )}
           </button>
         );

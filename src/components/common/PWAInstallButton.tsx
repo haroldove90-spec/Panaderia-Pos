@@ -33,7 +33,7 @@ export const PWAInstallButton: React.FC<{ compact?: boolean }> = ({ compact = fa
         onClick={handleInstallClick}
         type="button"
         title="Instalar aplicación en tu dispositivo"
-        className="flex items-center gap-2 rounded-lg bg-amber-600 hover:bg-amber-700 active:bg-amber-800 text-white px-3 py-1.5 text-xs sm:text-sm font-semibold shadow-sm transition-colors cursor-pointer"
+        className="flex items-center gap-2 rounded-xl bg-[#C58847] hover:bg-[#562914] active:scale-95 text-white px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm font-bold shadow-xs transition-all cursor-pointer"
       >
         <Download className="w-4 h-4 shrink-0" />
         <span className={compact ? 'hidden md:inline' : 'inline'}>Instalar</span>
@@ -42,20 +42,20 @@ export const PWAInstallButton: React.FC<{ compact?: boolean }> = ({ compact = fa
       {/* iOS Modal instructions */}
       {showIOSModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
-          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl border border-stone-200 text-stone-900 animate-in fade-in zoom-in-95 duration-150">
+          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl border border-[#562914]/20 text-[#000000] animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700">
-                <Smartphone className="w-5 h-5" />
+              <div className="w-10 h-10 rounded-xl bg-[#FCF1D5] flex items-center justify-center text-[#562914]">
+                <Smartphone className="w-5 h-5 text-[#C58847]" />
               </div>
               <div>
-                <h3 className="font-bold text-base text-stone-900">Instalar en iPhone o iPad</h3>
+                <h3 className="font-bold text-base text-[#562914]">Instalar en iPhone o iPad</h3>
                 <p className="text-xs text-stone-500">Panadería Pos PWA</p>
               </div>
             </div>
 
-            <ol className="space-y-3 text-xs text-stone-700 mb-6 bg-stone-50 p-3.5 rounded-xl border border-stone-200">
+            <ol className="space-y-3 text-xs text-stone-700 mb-6 bg-[#FCF1D5]/40 p-3.5 rounded-xl border border-[#562914]/15">
               <li className="flex items-start gap-2">
-                <span className="font-bold bg-amber-200 text-amber-900 w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-[11px]">1</span>
+                <span className="font-bold bg-[#C58847] text-white w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-[11px]">1</span>
                 <span>Toca el botón <strong>Compartir</strong> (ícono de cuadro con flecha arriba) en la barra de Safari.</span>
               </li>
               <li className="flex items-start gap-2">
