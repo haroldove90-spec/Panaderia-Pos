@@ -1,0 +1,6 @@
+{
+  "name": "Panadería Pos",
+  "description": "Sistema de punto de venta e inventario para panaderías estilo La Esperanza CDMX, con roles de Administrador, Vendedor Mostrador y Cajera.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

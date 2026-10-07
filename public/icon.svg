@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#fffbeb" />
+      <stop offset="50%" stop-color="#fef3c7" />
+      <stop offset="100%" stop-color="#fde68a" />
+    </radialGradient>
+    <linearGradient id="crustGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="40%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <linearGradient id="sugarGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fff" />
+      <stop offset="100%" stop-color="#fed7aa" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#78350f" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Background Base with warm bakery cream tone -->
+  <rect width="512" height="512" rx="112" fill="#78350f" />
+  <rect x="16" y="16" width="480" height="480" rx="96" fill="url(#bgGrad)" />
+
+  <!-- Outer Decorative Ring -->
+  <circle cx="256" cy="240" r="160" fill="none" stroke="#d97706" stroke-width="6" stroke-dasharray="10 10" opacity="0.4" />
+
+  <!-- Bread / Concha Body -->
+  <g filter="url(#shadow)">
+    <!-- Golden Brioche Base -->
+    <ellipse cx="256" cy="245" rx="145" ry="135" fill="url(#crustGrad)" />
+    <!-- Sugar paste topping pattern (Traditional Mexican Concha) -->
+    <!-- Central Shell Curves -->
+    <path d="M 256 125 C 200 135, 155 180, 140 240 C 180 230, 225 210, 256 180 C 287 210, 332 230, 372 240 C 357 180, 312 135, 256 125 Z" fill="url(#sugarGrad)" opacity="0.95" />
+    <!-- Left Concha Shell Grooves -->
+    <path d="M 175 155 C 210 190, 235 240, 245 295 C 205 285, 165 260, 135 215 C 145 190, 158 170, 175 155 Z" fill="url(#sugarGrad)" opacity="0.92" />
+    <path d="M 215 320 C 180 305, 150 275, 130 245 C 132 295, 165 345, 215 365 C 218 350, 217 335, 215 320 Z" fill="url(#sugarGrad)" opacity="0.9" />
+    <!-- Right Concha Shell Grooves -->
+    <path d="M 337 155 C 302 190, 277 240, 267 295 C 307 285, 347 260, 377 215 C 367 190, 354 170, 337 155 Z" fill="url(#sugarGrad)" opacity="0.92" />
+    <path d="M 297 320 C 332 305, 362 275, 382 245 C 380 295, 347 345, 297 365 C 294 350, 295 335, 297 320 Z" fill="url(#sugarGrad)" opacity="0.9" />
+    <!-- Center bottom groove -->
+    <ellipse cx="256" cy="335" rx="30" ry="38" fill="url(#sugarGrad)" opacity="0.9" />
+  </g>
+
+  <!-- Wheat ears flanking bottom -->
+  <g fill="#b45309">
+    <!-- Left Wheat -->
+    <path d="M 120 405 C 135 390, 145 375, 140 365 C 130 370, 122 385, 120 405 Z" />
+    <path d="M 105 425 C 120 415, 132 400, 130 390 C 118 395, 108 410, 105 425 Z" />
+    <!-- Right Wheat -->
+    <path d="M 392 405 C 377 390, 367 375, 372 365 C 382 370, 390 385, 392 405 Z" />
+    <path d="M 407 425 C 392 415, 380 400, 382 390 C 394 395, 404 410, 407 425 Z" />
+  </g>
+
+  <!-- Banner text / Brand Label -->
+  <rect x="116" y="405" width="280" height="48" rx="24" fill="#78350f" />
+  <text x="256" y="437" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="22" fill="#fef3c7" text-anchor="middle" letter-spacing="2">PANADERÍA POS</text>
+</svg>
