@@ -35,18 +35,18 @@ const MainLayout: React.FC = () => {
 
   // 2. Main Authenticated Dashboard Layout
   return (
-    <div className="min-h-screen bg-[#FCF1D5] text-[#000000] flex flex-col">
+    <div className="h-screen w-screen overflow-hidden bg-[#FCF1D5] text-[#000000] flex flex-col">
       {/* Cabecera Institucional Unificada */}
       <Header />
 
       {/* Main Workspace with Sidebar & Content */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 min-h-0 flex overflow-hidden">
         {/* Menú Lateral Desplegable en Escritorio */}
         <Sidebar />
 
         {/* Content Viewport */}
-        <main className="flex-1 overflow-y-auto p-3 sm:p-5 lg:p-6">
-          <div className="max-w-7xl mx-auto h-full">
+        <main className="flex-1 min-h-0 overflow-y-auto p-2 sm:p-4 lg:p-5 flex flex-col">
+          <div className="w-full max-w-7xl mx-auto h-full flex-1 min-h-0 flex flex-col">
             {role === 'admin' && <AdminDashboard />}
             {role === 'vendedor' && <POSModule />}
             {role === 'cajera' && <CajeroModule />}
